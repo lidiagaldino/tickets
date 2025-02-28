@@ -1,4 +1,6 @@
 quarkus:
+  application:
+    name: API Tickets
   datasource:
     db-kind: postgresql
     username: ${DATABASE_USERNAME}

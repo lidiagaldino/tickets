@@ -4,6 +4,7 @@ import com.lidiagaldino.tickets.domain.contexts.user.entity.UserEntity;
 import com.lidiagaldino.tickets.domain.contexts.user.repository.UserRepository;
 import com.lidiagaldino.tickets.infraestructure.database.pg.entities.UserEntityModel;
 import com.lidiagaldino.tickets.infraestructure.database.pg.repositories.UserPgService;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -18,6 +19,7 @@ public class UserRepositoryPgAdapter implements UserRepository {
     }
 
     @Override
+    @WithSpan("UserRepositorySave")
     public Uni<UserEntity> save(UserEntity user) {
         return Uni.createFrom()
                 .item(user)
@@ -35,6 +37,7 @@ public class UserRepositoryPgAdapter implements UserRepository {
     }
 
     @Override
+    @WithSpan("UserRepositoryFindByEmail")
     public Uni<UserEntity> findByEmail(String email) {
         return Uni.createFrom()
                 .item(email)

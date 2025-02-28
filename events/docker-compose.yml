@@ -1,4 +1,22 @@
 services:
+  dk-otel-lgtm:
+    container_name: dk-otel-lgtm
+    image: grafana/otel-lgtm:latest
+    ports:
+      - "3000:3000"   # Grafana
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP HTTP receiver, not yet used by Quarkus, optional
+      - "9090:9090"   # Prometheus
+    volumes:
+      - "./dk-otel-lgtm/data/grafana:/otel-lgtm/grafana/data"
+      - "./dk-otel-lgtm/data/prometheus:/data/prometheus"
+      - "./dk-otel-lgtm/data/loki:/loki"
+      - "./dk-otel-lgtm/config/prometheus.yaml:/otel-lgtm/prometheus.yaml"
+    extra_hosts:
+       - "host.docker.internal:host-gateway"
+    environment:
+       - COLLECTOR_OTLP_ENABLED=true
+       - ENABLE_LOGS_PROMETHEUS=true
   db:
     image: postgres:latest
     container_name: postgres_container

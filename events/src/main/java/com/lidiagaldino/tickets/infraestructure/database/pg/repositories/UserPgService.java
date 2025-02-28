@@ -7,9 +7,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class UserPgService implements PanacheRepository<UserEntityModel> {
-    public Uni<UserEntityModel> findByEmail(String email) {
-        return find("email", email).firstResult();
-    }
+        public Uni<UserEntityModel> findByEmail(String email) {
+            return find("email", email).firstResult();
+        }
 
     public Uni<UserEntityModel> save(UserEntityModel user) {
         return persist(user);

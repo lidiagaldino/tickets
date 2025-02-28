@@ -2,10 +2,7 @@ package com.lidiagaldino.tickets.infraestructure.database.pg.entities;
 
 import com.lidiagaldino.tickets.domain.contexts.user.entity.UserEntity;
 import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.hibernate.annotations.UuidGenerator;
@@ -23,6 +20,7 @@ public class UserEntityModel extends PanacheEntityBase {
     @UuidGenerator
     private UUID id;
     private String username;
+    @Column(unique = true)
     private String email;
     private String password;
 

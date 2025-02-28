@@ -1,6 +1,7 @@
 package com.lidiagaldino.tickets.infraestructure.cryptography.password;
 
 import com.lidiagaldino.tickets.domain.services.PasswordCryptography;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -17,10 +18,12 @@ public class PasswordCryptographyService implements PasswordCryptography {
 
     private static final int SALT_LENGTH = 16;
     private static final int HASH_LENGTH = 32;
-    private static final int ITERATIONS = 10;
-    private static final int MEMORY = 65536;
+    private static final int ITERATIONS = 2;
+    private static final int MEMORY = 32768;
     private static final int PARALLELISM = 1;
 
+    @Override
+    @WithSpan("hashPassword")
     public Uni<String> hash(String password) {
         return Uni.createFrom().item(() -> {
             byte[] salt = RandomStringUtils.randomAlphanumeric(SALT_LENGTH).getBytes(StandardCharsets.UTF_8);
@@ -43,6 +46,8 @@ public class PasswordCryptographyService implements PasswordCryptography {
         });
     }
 
+    @Override
+    @WithSpan("verifyPassword")
     public Uni<Boolean> verify(String password, String hashedPassword) {
         return Uni.createFrom().item(() -> {
             byte[] combined = Base64.getDecoder().decode(hashedPassword);
