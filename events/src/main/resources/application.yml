@@ -1,0 +1,10 @@
+quarkus:
+  datasource:
+    db-kind: postgresql
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    reactive:
+      url: postgresql://localhost:5432/tickets
+  hibernate-orm:
+    database:
+      generation: drop-and-create
