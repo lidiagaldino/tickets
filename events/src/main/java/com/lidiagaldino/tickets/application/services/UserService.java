@@ -7,4 +7,5 @@ import io.smallrye.mutiny.Uni;
 public interface UserService {
     Uni<UserOutputData> save(UserInputData user);
     void delete(String email);
+    Uni<UserOutputData> findById(String id);
 }

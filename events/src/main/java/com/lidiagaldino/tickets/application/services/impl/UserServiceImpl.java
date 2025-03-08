@@ -6,6 +6,7 @@ import com.lidiagaldino.tickets.application.services.UserService;
 import com.lidiagaldino.tickets.domain.contexts.user.repository.UserRepository;
 import com.lidiagaldino.tickets.domain.services.PasswordCryptography;
 import com.lidiagaldino.tickets.infraestructure.exceptions.customs.UserAlreadyExistException;
+import io.quarkus.security.Authenticated;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -36,5 +37,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(String email) {
 
+    }
+
+    @Override
+    @Authenticated
+    public Uni<UserOutputData> findById(String id) {
+        return Uni.createFrom()
+                .item(id)
+                .onItem()
+                .ifNotNull()
+                .transformToUni(it -> this.userRepository.findById(id))
+                .onItem()
+                .ifNotNull()
+                .transform(user -> UserOutputData.from(user));
     }
 }

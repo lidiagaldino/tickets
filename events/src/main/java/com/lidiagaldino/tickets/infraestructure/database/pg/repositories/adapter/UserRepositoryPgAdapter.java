@@ -8,6 +8,8 @@ import io.opentelemetry.instrumentation.annotations.WithSpan;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.util.UUID;
+
 
 @ApplicationScoped
 public class UserRepositoryPgAdapter implements UserRepository {
@@ -44,6 +46,22 @@ public class UserRepositoryPgAdapter implements UserRepository {
                 .onItem()
                 .ifNotNull()
                 .transformToUni(it -> userPgService.findByEmail(it))
+                .onItem()
+                .ifNotNull()
+                .transform(it -> it.toEntity());
+    }
+
+    @Override
+    @WithSpan("UserRepositoryFindById")
+    public Uni<UserEntity> findById(String id) {
+        return Uni.createFrom()
+                .item(id)
+                .onItem()
+                .ifNotNull()
+                .transform(it -> UUID.fromString(id))
+                .onItem()
+                .ifNotNull()
+                .transformToUni(it -> userPgService.findById(it))
                 .onItem()
                 .ifNotNull()
                 .transform(it -> it.toEntity());

@@ -1,4 +1,22 @@
+mp:
+  jwt:
+    verify:
+      publickey:
+        location: publicKey.pem
+      issuer: tickets-backend
+
+smallrye:
+  jwt:
+    sign:
+      key:
+        location: privateKey.pem
+
 quarkus:
+  smallrye-jwt:
+    enabled: true
+    token:
+      header: Authorization
+      cookie: Bearer
   application:
     name: API Tickets
   datasource:

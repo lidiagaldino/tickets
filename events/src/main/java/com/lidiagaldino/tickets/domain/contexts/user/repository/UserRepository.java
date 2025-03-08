@@ -7,4 +7,5 @@ public interface UserRepository {
     Uni<UserEntity> save(UserEntity user);
     void delete(UserEntity user);
     Uni<UserEntity> findByEmail(String email);
+    Uni<UserEntity> findById(String id);
 }

@@ -68,6 +68,6 @@ public class PasswordCryptographyService implements PasswordCryptography {
             generator.generateBytes(password.getBytes(StandardCharsets.UTF_8), testHash);
 
             return java.util.Arrays.equals(hash, testHash);
-        }).runSubscriptionOn(Infrastructure.getDefaultWorkerPool());
+        });
     }
 }
